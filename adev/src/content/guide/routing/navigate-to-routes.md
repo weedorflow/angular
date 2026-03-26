@@ -147,6 +147,20 @@ export class UserDetail {
 }
 ```
 
+When you need to move up multiple levels, keep the parent traversal in the first command.
+
+```angular-ts
+navigateToSettings() {
+  // From: /teams/1/users/123
+  // To:   /teams/1/settings
+  this.router.navigate(['../../settings'], {relativeTo: this.route});
+}
+```
+
+IMPORTANT: Angular only interprets `..` segments for parent traversal from the first command in the array. `['../../settings']` works differently from `['..', '..', 'settings']`, which produces a navigation error.
+
+If the first command starts with `/`, Angular treats the navigation as absolute and ignores `relativeTo`.
+
 ### `router.navigateByUrl()`
 
 The `router.navigateByUrl()` method provides a direct way to programmatically navigate using URL path strings rather than array segments. This method is ideal when you have a full URL path and need to perform absolute navigation, especially when working with externally provided URLs or deep linking scenarios.
